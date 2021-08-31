@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="script.js" defer></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <title>TAAAAAAAARS</title>
+  </head>
+  <body>
+    <!-- HEADER CAR GAME -->
+    <header class="header">
+      <div class="header-title">
+        <h1>TAR LIST</h1>
+        <h2>by Clark and Emmy</h2>
+      </div>
+      <div class="header-game">
+        <div class="header-car">
+          <img class="header-game-img" src="./images/header-game-img.jpg" alt="" />
+          <div class="headlights hidden" data-headlights>
+            <div class="left-headlight"></div>
+            <div class="right-headlight"></div>
+          </div>
+        </div>
+        <a class="header-img-credit" href="https://www.vecteezy.com/free-vector/car-headlights"
+          >Car Headlights Vectors by Vecteezy</a
+        >
+
+        <input class="headlight-toggle" type="checkbox" data-headlight-toggle />
+
+        <div class="headlight-color-picker" data-headlight-color-picker>
+          <div class="colors red" data-color-JS="red"></div>
+          <div class="colors orange" data-color-JS="orange"></div>
+          <div class="colors yellow selected" data-color-JS="yellow"></div>
+          <div class="colors green" data-color-JS="green"></div>
+          <div class="colors blue" data-color-JS="blue"></div>
+          <div class="colors purple" data-color-JS="purple"></div>
+        </div>
+
+        <div class="honk-horn">
+          <img class="horn-img" src="./images/horn.png" alt="" data-horn />
+        </div>
+      </div>
+
+      <button class="btn add-vehicle-btn" data-add-vehicle-btn>Add New Vehicle</button>
+    </header>
+
+    <!-- VEHICLE GALLERY -->
+    <section class="gallery-section">
+      <h1 class="gallery-title">Vehicle Gallery</h1>
+      <div class="gallery-container" data-vehicle-gallery>
+        <!-- Populate Vehicle Gallery with Javascript -->
+      </div>
+    </section>
+
+    <div class="modal-overlay hidden" data-modal-overlay></div>
+
+    <!-- popup for full vehicle image -->
+    <div class="gallery-popup hidden" data-gallery-popup>
+      <img
+        class="popup-img"
+        src="	https://live.staticflickr.com/65535/51385907382_4eb768c1ce.jpg"
+        alt=""
+        data-popup-img
+      />
+    </div>
+
+    <!-- MODALS TO ADD NEW VEHICLE -->
+
+    <div data-modals>
+      <!-- modal 1 -->
+      <div class="modal vehicle-name-modal hidden" data-vehicle-name-modal>
+        <div class="modal-steps">
+          <div class="modal-step selected" data-modal-step-one>
+            <div class="modal-step-number">
+              <span>1</span>
+              <span class="step-title">vehicle</span>
+            </div>
+          </div>
+          <div class="modal-step" data-modal-step-two>
+            <div class="modal-step-number">
+              <span>2</span>
+              <span class="step-title">driver</span>
+            </div>
+          </div>
+          <div class="modal-step" data-modal-step-three>
+            <div class="modal-step-number">
+              <span>3</span>
+              <span class="step-title">image</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-content">
+          <h2 class="modal-title">Name your vehicle</h2>
+          <label class="vehicle-name-label" for="vehicle-input">What do you want to call this tar?</label>
+          <input
+            class="vehicle-name-input"
+            type="text"
+            id="vehicle-input"
+            placeholder="Things other than tow trucks exist, you know?"
+            required
+            autocomplete="off"
+            data-vehicle-name-input
+          />
+          <div class="modal-btn-div">
+            <button class="btn modal-next-prev-btn disabled-btn" disabled data-next-btn>Next</button>
+          </div>
+        </div>
+        <span class="cancel" data-cancel-btn>Cancel</span>
+      </div>
+
+      <!-- modal 2 -->
+      <div class="modal driver-modal hidden" data-driver-modal>
+        <div class="modal-steps">
+          <div class="modal-step" data-modal-step-one>
+            <div class="modal-step-number">
+              <span>1</span>
+              <span class="step-title">vehicle</span>
+            </div>
+          </div>
+          <div class="modal-step selected" data-modal-step-two>
+            <div class="modal-step-number">
+              <span>2</span>
+              <span class="step-title">driver</span>
+            </div>
+          </div>
+          <div class="modal-step" data-modal-step-three>
+            <div class="modal-step-number">
+              <span>3</span>
+              <span class="step-title">image</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-content">
+          <h2 class="modal-title">Choose your driver</h2>
+          <div class="all-drivers">
+            <img class="driver-pic" data-driver src="./images/photos/clark.png" alt="" title='"Cllllll!"' />
+            <img class="driver-pic" data-driver src="./images/photos/emmy.png" alt="" title='"Ammmm!"' />
+            <img class="driver-pic" data-driver src="./images/photos/andy.png" alt="" title='"Mama"' />
+            <img class="driver-pic" data-driver src="./images/photos/nate.png" alt="" title='"Dada"' />
+            <img class="driver-pic" data-driver src="./images/photos/nana.jpg" alt="" title='"Nana"' />
+            <img class="driver-pic" data-driver src="./images/photos/poppa.jpg" alt="" title='"Poppa (shhhh)"' />
+            <img class="driver-pic" data-driver src="./images/photos/granny.jpeg" alt="" title='"Granny"' />
+            <img class="driver-pic" data-driver src="./images/photos/grandpa.jpeg" alt="" title='"Grandpa"' />
+            <img class="driver-pic" data-driver src="./images/photos/brian.jpg" alt="" title='"Beeee"' />
+            <img class="driver-pic" data-driver src="./images/photos/helen.jpeg" alt="" title='"Heln"' />
+            <img class="driver-pic" data-driver src="./images/photos/bubbles.jpg" alt="" title='"Bubbles"' />
+            <img class="driver-pic" data-driver src="./images/photos/bouncer.jpg" alt="" title='"Bouncer"' />
+          </div>
+          <div class="modal-btn-div">
+            <button class="btn modal-next-prev-btn" data-prev-btn>Prev</button>
+            <button class="btn modal-next-prev-btn disabled-btn" disabled data-next-btn>Next</button>
+          </div>
+        </div>
+        <span class="cancel" data-cancel-btn>Cancel</span>
+      </div>
+
+      <!-- modal 3 -->
+      <div class="modal img-modal hidden" data-img-modal>
+        <div class="modal-steps">
+          <div class="modal-step" data-modal-step-one>
+            <div class="modal-step-number">
+              <span>1</span>
+              <span class="step-title">vehicle</span>
+            </div>
+          </div>
+          <div class="modal-step" data-modal-step-two>
+            <div class="modal-step-number">
+              <span>2</span>
+              <span class="step-title">driver</span>
+            </div>
+          </div>
+          <div class="modal-step selected" data-modal-step-three>
+            <div class="modal-step-number">
+              <span>3</span>
+              <span class="step-title">image</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-content">
+          <h2 class="modal-title">Search for an image of your vehicle</h2>
+
+          <div class="searchbar">
+            <input class="search-input" type="text" placeholder="Search vehicles..." data-search-img-input />
+            <ion-icon class="clear-icon hidden" name="close-circle-outline" data-clear-search></ion-icon>
+            <button class="btn search-img-btn" data-search-img-btn>
+              <ion-icon class="search-btn-icon" name="search"></ion-icon>
+            </button>
+          </div>
+
+          <div class="img-gallery hidden" data-img-gallery>
+            <!-- car loader by summer (@Elvira-Ho) - https://codepen.io/Elvira-Ho/pen/jvmRNK*/ -->
+            <div class="loader hide-loader" data-loader>
+              <svg class="car" width="102" height="40" xmlns="http://www.w3.org/2000/svg">
+                <g
+                  transform="translate(2 1)"
+                  stroke="#002742"
+                  fill="none"
+                  fill-rule="evenodd"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    class="car__body"
+                    d="M47.293 2.375C52.927.792 54.017.805 54.017.805c2.613-.445 6.838-.337 9.42.237l8.381 1.863c2.59.576 6.164 2.606 7.98 4.531l6.348 6.732 6.245 1.877c3.098.508 5.609 3.431 5.609 6.507v4.206c0 .29-2.536 4.189-5.687 4.189H36.808c-2.655 0-4.34-2.1-3.688-4.67 0 0 3.71-19.944 14.173-23.902zM36.5 15.5h54.01"
+                    stroke-width="3"
+                  />
+                  <ellipse
+                    class="car__wheel--left"
+                    stroke-width="3.2"
+                    fill="#FFF"
+                    cx="83.493"
+                    cy="30.25"
+                    rx="6.922"
+                    ry="6.808"
+                  />
+                  <ellipse
+                    class="car__wheel--right"
+                    stroke-width="3.2"
+                    fill="#FFF"
+                    cx="46.511"
+                    cy="30.25"
+                    rx="6.922"
+                    ry="6.808"
+                  />
+                  <path class="car__line car__line--top" d="M22.5 16.5H2.475" stroke-width="3" />
+                  <path class="car__line car__line--middle" d="M20.5 23.5H.4755" stroke-width="3" />
+                  <path class="car__line car__line--bottom" d="M25.5 9.5h-19" stroke-width="3" />
+                </g>
+              </svg>
+            </div>
+
+            <div class="images" data-images>
+              <!-- gallery populated by JavaScript -->
+            </div>
+            <div class="page-btns">
+              <ion-icon class="page-selector" name="chevron-back-outline" data-prev-page></ion-icon>
+              <span class="page-num" data-page-num></span>
+              <ion-icon class="page-selector" name="chevron-forward-outline" data-next-page></ion-icon>
+            </div>
+          </div>
+          <div class="modal-btn-div">
+            <button class="btn modal-next-prev-btn" data-prev-btn>Prev</button>
+            <button class="btn modal-next-prev-btn disabled-btn" data-finish-btn disabled>Finish</button>
+          </div>
+        </div>
+        <span class="cancel" data-cancel-btn>Cancel</span>
+      </div>
+    </div>
+
+    <template data-vehicle-template>
+      <div class="item-container" data-item-container>
+        <div class="item-image-container">
+          <img class="item-image" src="" alt="" data-item-img />
+          <ion-icon class="delete-item hidden" name="trash-outline" data-delete-item></ion-icon>
+        </div>
+        <div class="item-info">
+          <img class="item-driver" data-item-driver src="" alt="" />
+          <span class="item-name" data-item-name></span>
+          <span class="item-rank" data-item-rank></span>
+          <div class="sort-arrows">
+            <ion-icon class="arrow" name="caret-up-outline" data-sort-arrow-up></ion-icon>
+            <ion-icon class="arrow" name="caret-down-outline" data-sort-arrow-down></ion-icon>
+          </div>
+        </div>
+      </div>
+    </template>
+  </body>
+</html>

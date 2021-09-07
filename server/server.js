@@ -1,5 +1,5 @@
 const express = require("express");
-const cors = require("cors");
+const cors = require("cors"); //do not need cors module in current implementation
 const fetch = require("node-fetch");
 require("dotenv").config();
 
@@ -13,30 +13,47 @@ app.listen(port, () => {
   console.log(`Starting server at port: ${port}`);
 });
 
-//TODO - consider separating server and client
-app.use(express.static("../client"));
+app.use(express.static("../public"));
 
 //TODO - add try catch
-app.get("/images/:searchinputs", async (req, res) => {
+app.get("/:searchparams", async (req, res) => {
   console.log(req.params);
 
-  //TODO - bring some searchinputs from script.js to server.js
-  const searchInputs = req.params.searchinputs.split(",");
-  console.log(searchInputs);
-
-  const searchInput = searchInputs[0];
-  const extras = searchInputs[1];
-  const photosPerPage = searchInputs[2];
-  const flickrPage = searchInputs[3];
+  const searchParameters = req.params.searchparams.split(",");
+  console.log(searchParameters);
+  const searchInput = searchParameters[0];
+  const flickrPage = searchParameters[1];
+  const photosPerPage = 6;
+  const extras = "url_q,license,owner_name"; //TODO - add explanation of extras
+  const licenseRequest = "1,2,3,4,5,6,7,8,9,10";
 
   const FLICKR_API_KEY = process.env.FLICKR_API_KEY;
 
-  //TODO - add license, author, etc to request
-  const apiUrl = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${FLICKR_API_KEY}&tags=${searchInput}&extras=${extras}&per_page=${photosPerPage}&page=${flickrPage}&format=json&nojsoncallback=1`;
+  const apiUrlPhotos = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${FLICKR_API_KEY}&tags=${searchInput}&license=${licenseRequest}&extras=${extras}&per_page=${photosPerPage}&page=${flickrPage}&format=json&nojsoncallback=1`;
 
-  console.log(apiUrl);
+  const apiUrlLicenses = `https://www.flickr.com/services/rest/?method=flickr.photos.licenses.getInfo&api_key=aceda01ee3370538fb46eab541fabf93&format=json&nojsoncallback=1`;
 
-  const fetchResponse = await fetch(apiUrl);
-  const json = await fetchResponse.json();
-  res.json(json);
+  console.log(apiUrlPhotos);
+  console.log(apiUrlLicenses);
+
+  const photosFetchResponse = await fetch(apiUrlPhotos);
+  const jsonPhotos = await photosFetchResponse.json();
+
+  //TODO - cache the license fetch.
+  const licensesFetchResponse = await fetch(apiUrlLicenses);
+  const jsonLicenses = await licensesFetchResponse.json();
+
+  const photos = jsonPhotos.photos.photo;
+  const licenses = jsonLicenses.licenses.license;
+  console.log(licenses); // delete
+
+  // Add license name and license url to each photo
+  photos.forEach((photo) => {
+    photo.licenseName = licenses.find((license) => license.id === photo.license).name;
+    photo.licenseNameUrl = licenses.find((license) => license.id === photo.license).url;
+  });
+
+  console.log(photos); // delete
+
+  res.json(photos);
 });

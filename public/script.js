@@ -198,12 +198,20 @@ modalsContainer.addEventListener("click", (e) => {
   finishBtn.disabled = false;
 });
 
+//TODO - consider moving some of the finish button event listener to a function
 // finish button (event listener)
 modalsContainer.addEventListener("click", (e) => {
   if (!e.target.matches("[data-finish-btn]")) return;
 
   tempVehicle.image = e.target.closest(".modal").querySelector(".selected-img").dataset.fullUrl;
+  //TODO - change id to uuid v4
   tempVehicle.id = new Date().valueOf().toString();
+  tempVehicle.title = e.target.closest(".modal").querySelector(".selected-img").dataset.title;
+  tempVehicle.owner = e.target.closest(".modal").querySelector(".selected-img").dataset.owner;
+  tempVehicle.license = e.target.closest(".modal").querySelector(".selected-img").dataset.license;
+  tempVehicle.licenseUrl = e.target.closest(".modal").querySelector(".selected-img").dataset.licenseUrl;
+  tempVehicle.userId = e.target.closest(".modal").querySelector(".selected-img").dataset.userId;
+  tempVehicle.photoId = e.target.closest(".modal").querySelector(".selected-img").dataset.photoId;
   const newVehicle = { ...tempVehicle }; // TODO - check to see if I still need to clone object using spread operator.
   vehicleArray.push(newVehicle);
   saveVehicles();
@@ -248,6 +256,7 @@ vehicleGallery.addEventListener("click", (e) => {
 });
 
 // open popup for full vehicle image (event listener)
+//TODO - refactor with function
 vehicleGallery.addEventListener("click", (e) => {
   if (!e.target.matches(".item-image")) return;
 
@@ -256,6 +265,11 @@ vehicleGallery.addEventListener("click", (e) => {
   modalOverlay.style.top = `${window.scrollY}px`;
   modalOverlay.style.height = `${window.innerHeight}px`;
   galleryPopup.style.top = `${window.scrollY + window.innerHeight / 2}px`;
+
+  //TODO - add title/author/license to html
+  popupImg.parentElement.querySelector(
+    ".attribution"
+  ).innerHTML = `<span>"</span><a href="https://www.flickr.com/photos/${e.target.dataset.userId}/${e.target.dataset.photoId}" target="_blank">${e.target.dataset.title}</a><span>"</span>,  by <a href="https://www.flickr.com/people/${e.target.dataset.userId}" target="_blank">${e.target.dataset.owner}</a>, licensed under <a href=${e.target.dataset.licenseUrl} target="_blank">${e.target.dataset.license}</a>`;
 
   // assign css based on landscape vs portrait image
   if (popupImg.width > popupImg.height) {
@@ -372,28 +386,31 @@ async function fetchImages(searchInput) {
   images.innerHTML = "";
   loader.classList.remove("hide-loader");
 
-  const photosPerPage = 6; //TODO - move to server.js
-  const extras = "url_q"; //TODO - move to server.js and explain
-
-  const apiUrl = `images/${searchInput},${extras},${photosPerPage},${flickrPage}`;
+  const apiUrl = `/${searchInput},${flickrPage}`;
 
   //TODO - add try catch here
   const response = await fetch(apiUrl);
-  const json = await response.json();
-  console.log(json);
+  const photos = await response.json();
+  console.log(photos);
 
-  const photos = json.photos.photo;
+  // const photos = json.photos.photo;
   loader.classList.add("hide-loader");
 
   if (photos.length > 0) {
     photos.forEach((photo) => {
-      thumbnail = photo.url_q;
       const img = document.createElement("img");
       const fullImageURL = `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`;
-      img.src = thumbnail;
+      img.src = photo.url_q; //thumbnail image
       img.classList.add("gal-img");
-      img.dataset.img = "";
+      img.dataset.img = ""; //TODO - review this. was this for DOM selection?
       img.setAttribute("data-full-url", fullImageURL);
+      img.dataset.userId = photo.owner;
+      img.dataset.photoId = photo.id;
+      img.dataset.title = photo.title;
+      img.dataset.owner = photo.ownername;
+      img.dataset.license = photo.licenseName;
+      img.dataset.licenseUrl = photo.licenseNameUrl;
+
       images.append(img);
     });
     imgPageNum.innerHTML = `page ${flickrPage}`;
@@ -415,6 +432,14 @@ function renderVehicles(isVehicleNew) {
     const itemRank = templateClone.querySelector("[data-item-rank]");
     itemContainer.dataset.id = vehicle.id;
     itemImage.src = vehicle.image;
+    // image attribution
+    itemImage.dataset.userId = vehicle.userId;
+    itemImage.dataset.photoId = vehicle.photoId;
+    itemImage.dataset.owner = vehicle.owner;
+    itemImage.dataset.title = vehicle.title;
+    itemImage.dataset.license = vehicle.license;
+    itemImage.dataset.licenseUrl = vehicle.licenseUrl;
+
     driver.src = vehicle.driver;
     itemName.innerText = vehicle.name.toUpperCase();
     itemRank.innerText = `RANK: ${index + 1}`;
@@ -423,7 +448,6 @@ function renderVehicles(isVehicleNew) {
     vehicleGallery.append(itemContainer);
 
     //scroll to newly rendered image
-    //TODO -add logic to not scroll when refreshing page
     if (isVehicleNew === "yes" && index === vehicleArray.length - 1) {
       itemContainer.scrollIntoView({ behavior: "smooth" });
       itemImage.classList.add("highlight");

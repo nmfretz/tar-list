@@ -7,3 +7,7 @@ This is a simple web app I developed while learning html/css/javascript/node. My
 Some of the functionality may seem silly; however, these aspects were included based on funny interactions with my kids (e.g., being able to turn on and off the headlights of the header image).
 
 More to follow...
+
+# Heroku Deployment
+
+https://tar-list.herokuapp.com

@@ -6,6 +6,10 @@ This is an app I developed while learning html/css/javascript/node. My twin todd
 
 Some of the functionality may seem silly; however, these aspects were included based on funny interactions with my kids. For example, I added the ability to change the colour of the red car's headlights after my kids started yelling out different colors the first time they saw the headlights turn on (they had just learned how to say a few colours!).
 
+Front end currently deployed on netlify at https://tar-list.netlify.app/
+
+![screencapture-tar-list-netlify-app-2021-09-09-15_38_13](https://user-images.githubusercontent.com/85373263/132771732-29a3b6da-ca72-43aa-9d8e-3d599d1e105b.png)
+
 # Development
 
 ## .env
@@ -44,3 +48,7 @@ Back end server currently deployed on heroku at https://tar-list.herokuapp.com
 ## Netlify Deployment
 
 Front end currently deployed on netlify at https://tar-list.netlify.app/
+
+# Screenshots
+
+![screencapture-tar-list-netlify-app-2021-09-09-15_38_13](https://user-images.githubusercontent.com/85373263/132771732-29a3b6da-ca72-43aa-9d8e-3d599d1e105b.png)

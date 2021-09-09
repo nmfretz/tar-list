@@ -94,7 +94,7 @@ export default class AddVehicle {
     loader.classList.remove("hide-loader");
 
     // change domain based on deployment
-    const apiUrl = `http://localhost:3000/${searchInput},${flickrPage}`;
+    const apiUrl = `https://tar-list.herokuapp.com/${searchInput},${flickrPage}`;
 
     // TODO - add try catch here
     const response = await fetch(apiUrl);

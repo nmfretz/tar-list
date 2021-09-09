@@ -1,5 +1,5 @@
 const express = require("express");
-const cors = require("cors"); //do not need cors module in current implementation
+const cors = require("cors");
 const fetch = require("node-fetch");
 require("dotenv").config();
 
@@ -13,9 +13,7 @@ app.listen(port, () => {
   console.log(`Starting server at port: ${port}`);
 });
 
-app.use(express.static("../public"));
-
-//TODO - add try catch
+// TODO - add try catch
 app.get("/:searchparams", async (req, res) => {
   console.log(req.params);
 
@@ -24,7 +22,9 @@ app.get("/:searchparams", async (req, res) => {
   const searchInput = searchParameters[0];
   const flickrPage = searchParameters[1];
   const photosPerPage = 6;
-  const extras = "url_q,license,owner_name"; //TODO - add explanation of extras
+
+  // TODO - add explanation of extras
+  const extras = "url_q,license,owner_name";
   const licenseRequest = "1,2,3,4,5,6,7,8,9,10";
 
   const FLICKR_API_KEY = process.env.FLICKR_API_KEY;
@@ -39,7 +39,7 @@ app.get("/:searchparams", async (req, res) => {
   const photosFetchResponse = await fetch(apiUrlPhotos);
   const jsonPhotos = await photosFetchResponse.json();
 
-  //TODO - cache the license fetch.
+  //TODO - cache the license fetch to reduce api calls.
   const licensesFetchResponse = await fetch(apiUrlLicenses);
   const jsonLicenses = await licensesFetchResponse.json();
 

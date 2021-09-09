@@ -51,4 +51,14 @@ Front end currently deployed on netlify at https://tar-list.netlify.app/
 
 # Screenshots
 
+![screencapture-tar-list-netlify-app-2021-09-09-15_46_20](https://user-images.githubusercontent.com/85373263/132772758-bed14824-855d-4146-9169-dc8dc061687a.png)
+
 ![screencapture-tar-list-netlify-app-2021-09-09-15_38_13](https://user-images.githubusercontent.com/85373263/132771732-29a3b6da-ca72-43aa-9d8e-3d599d1e105b.png)
+
+![screencapture-tar-list-netlify-app-2021-09-09-15_41_22](https://user-images.githubusercontent.com/85373263/132772922-9222b440-1eae-402a-bcec-ddd18f5c914f.png)
+
+![screencapture-tar-list-netlify-app-2021-09-09-15_42_39](https://user-images.githubusercontent.com/85373263/132773066-a4f8722c-b96a-45a8-bdb1-84d463257bc4.png)
+
+![screencapture-tar-list-netlify-app-2021-09-09-15_43_31](https://user-images.githubusercontent.com/85373263/132773102-73c17ced-f311-4518-85d6-6013e0dd9103.png)
+
+![screencapture-tar-list-netlify-app-2021-09-09-15_43_52](https://user-images.githubusercontent.com/85373263/132773161-0970f6fa-8ce2-4f8f-97f5-40457ac3be94.png)

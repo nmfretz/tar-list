@@ -1,42 +1,62 @@
 # Car List App
 
-My first app! 🐱‍💻
+My first app! :mage::sparkles:
 
-This is an app I developed while learning html/css/javascript/node. My twin toddlers are obsessed with vehicles, so I developed an app for us to store their favourites.
-
-Some of the functionality may seem silly; however, these aspects were included based on funny interactions with my kids. For example, I added the ability to change the colour of the red car's headlights after my kids started yelling out different colors the first time they saw the headlights turn on (they had just learned how to say a few colours!).
+This is an app I developed while learning HTML/CSS/JavaScript/Node.js. My twin toddlers (1.5 years old when I developed this app) are obsessed with vehicles, so I developed an app for us to explore and store their favourites in a fun way!
 
 Front end currently deployed on netlify at https://tar-list.netlify.app/
 
-![screencapture-tar-list-netlify-app-2021-09-09-15_38_13](https://user-images.githubusercontent.com/85373263/132771732-29a3b6da-ca72-43aa-9d8e-3d599d1e105b.png)
+<kbd> 
+<img src="https://user-images.githubusercontent.com/85373263/132771732-29a3b6da-ca72-43aa-9d8e-3d599d1e105b.png"/>
+</kbd>
+
+### Features & Design
+
+- :dog: Fetches images from FLICKR API based on user search.
+- :clipboard: List items persist in local storage
+- :icecream: Vanilla CSS (no framework used)
+- Interactive car image in header
+  - :bulb: Turn the headlights on and off!
+  - :crayon: Change the colour of the headlights!
+  - :mega: Honk the horn!
+- Store your vehicles in the Gallery!
+  - :fire_engine: Choose your vehicle!
+  - :bust_in_silhouette: Choose your driver!
+  - :1st_place_medal:Change the rankings!
+
+Some of the functionality listed above may seem silly; however, these aspects were included based on funny interactions with my kids. For example, I added the ability to change the colour of the red car's headlights after my kids started yelling out different colors the first time they saw the headlights turn on (they had just learned how to say a few colours).
+
+# Setup
+
+```
+npm install
+```
+
+- Rename `.env.sample` to `.env` and update with your FLICKR API key
 
 # Development
 
-## .env
-
-Rename .env.sample to .env and update with your FLICKR api key
-
-## Server
+### Server
 
 Start server with nodemon.
 
 ```
 cd server
-npm run devStart
+npm run dev
 ```
 
-## Public/Client
+### Public/Client
 
 Start client with lite-server
 
 ```
 cd public
-npm run devStart
+npm run dev
 ```
 
 # Deployment
 
-## Heroku Deployment
+### Heroku Deployment
 
 Back end server currently deployed on heroku at https://tar-list.herokuapp.com
 
@@ -45,7 +65,7 @@ Back end server currently deployed on heroku at https://tar-list.herokuapp.com
   - add above github url as first heroku buildpack
   - add heroku nodejs as section buildpack
 
-## Netlify Deployment
+### Netlify Deployment
 
 Front end currently deployed on netlify at https://tar-list.netlify.app/
 

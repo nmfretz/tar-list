@@ -88,24 +88,51 @@ export default class AddVehicle {
     e.target.classList.add("selected-driver");
   }
 
-  static async fetchImages(searchInput, flickrPage) {
+  static async fetchImages(searchInput) {
+    searchPhotosCache = [];
     finishBtn.classList.add("disabled-btn");
-    images.innerHTML = "";
     loader.classList.remove("hide-loader");
 
     // change domain based on deployment
-    const apiUrl = `http://localhost:3000/${searchInput},${flickrPage}`;
+    const apiUrl = `http://localhost:3000/${searchInput}`;
 
     // TODO - add try catch here
-    const response = await fetch(apiUrl);
-    const photos = await response.json();
-    console.log(photos);
+    try {
+      const response = await fetch(apiUrl);
+      searchPhotosCache = await response.json();
+      console.log(searchPhotosCache);
 
-    // const photos = json.photos.photo;
-    loader.classList.add("hide-loader");
+      loader.classList.add("hide-loader");
 
-    if (photos.length > 0) {
-      photos.forEach((photo) => {
+      if (searchPhotosCache.length > 0) {
+        this.renderSearchPhotos(searchPhotosCache, photosPerPage);
+      } else {
+        const noPhotoMessage = document.createElement("span");
+        noPhotoMessage.innerText = `No photos found for '${searchInput}'. Please try another search.`;
+        images.append(noPhotoMessage);
+      }
+    } catch (error) {
+      console.error(error);
+      loader.classList.add("hide-loader");
+      const noPhotoMessage = document.createElement("span");
+      noPhotoMessage.innerText = `${error}. Please check your internet connection`;
+      images.append(noPhotoMessage);
+    }
+  }
+
+  static toggleSearchImage(e) {
+    const allImages = Array.from(document.querySelectorAll("[data-img]"));
+    allImages.forEach((img) => img.classList.remove("selected-img"));
+    e.target.classList.add("selected-img");
+    finishBtn.classList.remove("disabled-btn");
+    finishBtn.disabled = false;
+  }
+
+  static renderSearchPhotos(photos, photosPerPage, page = 1) {
+    images.innerHTML = "";
+
+    photos.forEach((photo, index) => {
+      if (index >= photosPerPage * page - photosPerPage && index < photosPerPage * page) {
         const img = document.createElement("img");
         const fullImageURL = `https://live.staticflickr.com/${photo.server}/${photo.id}_${photo.secret}.jpg`;
         img.src = photo.url_q; //thumbnail image
@@ -120,21 +147,11 @@ export default class AddVehicle {
         img.dataset.licenseUrl = photo.licenseNameUrl;
 
         images.append(img);
-      });
-      imgPageNum.innerHTML = `page ${flickrPage}`;
-    } else {
-      const noPhotoMessage = document.createElement("span");
-      noPhotoMessage.innerText = `No photos found for '${searchInput}'`;
-      images.append(noPhotoMessage);
-    }
-  }
-
-  static toggleSearchImage(e) {
-    const allImages = Array.from(document.querySelectorAll("[data-img]"));
-    allImages.forEach((img) => img.classList.remove("selected-img"));
-    e.target.classList.add("selected-img");
-    finishBtn.classList.remove("disabled-btn");
-    finishBtn.disabled = false;
+        imgPageNum.innerHTML = `page ${page}`;
+      } else {
+        return;
+      }
+    });
   }
 
   static storeVehicleDetails(e, vehicleArray) {
@@ -153,6 +170,8 @@ export default class AddVehicle {
 }
 
 const tempVehicle = {};
+export let searchPhotosCache = [];
+export const photosPerPage = 6;
 
 // TODO - move into functions if used once
 const modalOverlay = document.querySelector("[data-modal-overlay]");

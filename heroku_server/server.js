@@ -20,8 +20,8 @@ app.get("/:searchparams", async (req, res) => {
   const searchParameters = req.params.searchparams.split(",");
   console.log(searchParameters);
   const searchInput = searchParameters[0];
-  const flickrPage = searchParameters[1];
-  const photosPerPage = 6;
+  // const photosPerPage = 6;
+  const photosPerPage = 120;
 
   // TODO - add explanation of extras
   const extras = "url_q,license,owner_name";
@@ -29,12 +29,12 @@ app.get("/:searchparams", async (req, res) => {
 
   const FLICKR_API_KEY = process.env.FLICKR_API_KEY;
 
-  const apiUrlPhotos = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${FLICKR_API_KEY}&tags=${searchInput}&license=${licenseRequest}&extras=${extras}&per_page=${photosPerPage}&page=${flickrPage}&format=json&nojsoncallback=1`;
+  const apiUrlPhotos = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${FLICKR_API_KEY}&tags=${searchInput}&license=${licenseRequest}&extras=${extras}&per_page=${photosPerPage}&format=json&nojsoncallback=1`;
 
   const apiUrlLicenses = `https://www.flickr.com/services/rest/?method=flickr.photos.licenses.getInfo&api_key=aceda01ee3370538fb46eab541fabf93&format=json&nojsoncallback=1`;
 
-  console.log(apiUrlPhotos);
-  console.log(apiUrlLicenses);
+  // console.log(apiUrlPhotos);
+  // console.log(apiUrlLicenses);
 
   const photosFetchResponse = await fetch(apiUrlPhotos);
   const jsonPhotos = await photosFetchResponse.json();
@@ -45,7 +45,7 @@ app.get("/:searchparams", async (req, res) => {
 
   const photos = jsonPhotos.photos.photo;
   const licenses = jsonLicenses.licenses.license;
-  console.log(licenses); // delete
+  // console.log(licenses);
 
   // Add license name and license url to each photo
   photos.forEach((photo) => {
@@ -53,7 +53,7 @@ app.get("/:searchparams", async (req, res) => {
     photo.licenseNameUrl = licenses.find((license) => license.id === photo.license).url;
   });
 
-  console.log(photos); // delete
+  // console.log(photos);
 
   res.json(photos);
 });

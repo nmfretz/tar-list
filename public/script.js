@@ -1,10 +1,10 @@
 import HeaderGame from "./header-game.js";
-import AddVehicle from "./add-vehicle.js";
+import AddVehicle, { searchPhotosCache, photosPerPage } from "./add-vehicle.js";
 import VehicleGallery, { vehicleArray } from "./vehicle-gallery.js";
 
 //TODO - consider moving
 let tempSearchInput = "";
-let flickrPage = 1;
+let searchPage = 1;
 
 // TODO - go through UI elements and see which ones can be moved down to where they are used, if used once
 const headlightToggle = document.querySelector("[data-headlight-toggle]");
@@ -87,32 +87,33 @@ searchImgInput.addEventListener("keyup", (e) => {
   if (e.keyCode !== 13 || searchImgInput.value === "") return;
   imageGallery.classList.remove("hidden");
   tempSearchInput = searchImgInput.value;
-  flickrPage = 1;
-  AddVehicle.fetchImages(tempSearchInput, flickrPage);
+  searchPage = 1;
+  AddVehicle.fetchImages(tempSearchInput);
 });
 
 //    search on btn click
 searchImgBtn.addEventListener("click", (e) => {
   imageGallery.classList.remove("hidden");
   tempSearchInput = searchImgInput.value;
-  flickrPage = 1;
-  AddVehicle.fetchImages(tempSearchInput, flickrPage);
+  searchPage = 1;
+  AddVehicle.fetchImages(tempSearchInput);
 });
 
 // change fetch image page (event listeners)
+
 //    next fetch image page
 imgModal.addEventListener("click", (e) => {
   if (!e.target.matches("[data-next-page]")) return;
-  flickrPage++;
-  AddVehicle.fetchImages(tempSearchInput, flickrPage);
+  searchPage++;
+  AddVehicle.renderSearchPhotos(searchPhotosCache, photosPerPage, searchPage);
 });
 
 //    previous fetch image page
 imgModal.addEventListener("click", (e) => {
   if (!e.target.matches("[data-prev-page]")) return;
-  if (flickrPage === 1) return;
-  flickrPage--;
-  AddVehicle.fetchImages(tempSearchInput, flickrPage);
+  if (searchPage === 1) return;
+  searchPage--;
+  AddVehicle.renderSearchPhotos(searchPhotosCache, photosPerPage, searchPage);
 });
 
 // TODO - consider changing to something like clearSearchBar.addEventListener

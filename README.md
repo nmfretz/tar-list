@@ -13,13 +13,14 @@ Front end currently deployed on netlify at https://tar-list.netlify.app/
 ### Features & Design
 
 - :dog: Fetches images from FLICKR API based on user search.
+- :brain: In-memory cache to limit API calls
 - :clipboard: List items persist in local storage
 - :icecream: Vanilla CSS (no framework used)
 - Interactive car image in header
-  - :bulb: Turn the headlights on and off!
-  - :crayon: Change the colour of the headlights!
-  - :mega: Honk the horn!
-- Store your vehicles in the Gallery!
+  - :bulb: Turn the headlights on and off
+  - :crayon: Change the colour of the headlights
+  - :mega: Honk the horn
+- Store your vehicles in the Gallery
   - :fire_engine: Choose your vehicle!
   - :bust_in_silhouette: Choose your driver!
   - :1st_place_medal:Change the rankings!
@@ -45,9 +46,9 @@ cd server
 npm run dev
 ```
 
-### Public/Client
+### Public
 
-Start client with lite-server
+Start public with lite-server
 
 ```
 cd public
@@ -68,6 +69,8 @@ Back end server currently deployed on heroku at https://tar-list.herokuapp.com
 ### Netlify Deployment
 
 Front end currently deployed on netlify at https://tar-list.netlify.app/
+
+Change `const apiUrl` in `/public/add-vehicle.js` to url of your server
 
 # Screenshots
 

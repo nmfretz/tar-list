@@ -1,4 +1,5 @@
 const headlights = document.querySelector("[data-headlights]");
+const honk = new Audio("./sounds/car-horn.mp3");
 
 export default class HeaderGame {
   static toggleHeadlights(e) {
@@ -20,7 +21,7 @@ export default class HeaderGame {
   }
 
   static honkHorn() {
-    const honk = new Audio("./sounds/car-horn.mp3");
+    // const honk = new Audio("./sounds/car-horn.mp3");
     honk.play();
   }
 }

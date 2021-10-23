@@ -9,8 +9,9 @@ export default class AddVehicle {
     document.body.classList.add("pause-scrolling");
     modalOverlay.classList.remove("hidden");
     vehicleNameModal.classList.remove("hidden");
-    //focus and select input elemetn
+    //focus and select input element
     vehicleNameInput.focus();
+    vehicleNameInput.select();
   }
 
   static enableNextBtnVehicleNameModal(e) {
@@ -57,6 +58,7 @@ export default class AddVehicle {
     target.nextElementSibling.classList.remove("hidden");
     if (target.nextElementSibling.matches("[data-img-modal]")) {
       searchImgInput.focus();
+      searchImgInput.select();
     }
   }
 

@@ -9,6 +9,8 @@ export default class AddVehicle {
     document.body.classList.add("pause-scrolling");
     modalOverlay.classList.remove("hidden");
     vehicleNameModal.classList.remove("hidden");
+    //focus and select input elemetn
+    vehicleNameInput.focus();
   }
 
   static enableNextBtnVehicleNameModal(e) {
@@ -35,11 +37,14 @@ export default class AddVehicle {
     }
   }
 
-  static nextModalStep(e) {
-    const target = e.target.closest(".modal");
-    if (target.querySelector("[data-vehicle-name-input]")) {
+  static nextModalStep(target) {
+    if (target === document.querySelector("[data-vehicle-name-modal]")) {
       tempVehicle.name = vehicleNameInput.value;
-    } else {
+      console.log("clicked next in name modal");
+    }
+    if (target === document.querySelector("[data-driver-modal]")) {
+      console.log("clicked next in driver modal");
+
       const allDrivers = Array.from(document.querySelectorAll("[data-driver]"));
       const selectedDriver = allDrivers.find((driver) => driver.classList.contains("selected-driver"));
       const driverPhoto = selectedDriver.src;
@@ -50,6 +55,9 @@ export default class AddVehicle {
     target.classList.add("hidden");
     target.nextElementSibling.style.top = `${window.scrollY + window.innerHeight / 2}px`;
     target.nextElementSibling.classList.remove("hidden");
+    if (target.nextElementSibling.matches("[data-img-modal]")) {
+      searchImgInput.focus();
+    }
   }
 
   static prevModalStep(e) {
@@ -98,6 +106,7 @@ export default class AddVehicle {
 
     // TODO - add try catch here
     try {
+      images.innerHTML = ""; // change this to avoid cross site scripting. [...nodelist].forEach(element => {element.remove()});
       const response = await fetch(apiUrl);
       searchPhotosCache = await response.json();
       console.log(searchPhotosCache);
@@ -129,7 +138,7 @@ export default class AddVehicle {
   }
 
   static renderSearchPhotos(photos, photosPerPage, page = 1) {
-    images.innerHTML = "";
+    images.innerHTML = ""; // change this to avoid cross site scripting. [...nodelist].forEach(element => {element.remove()});
 
     photos.forEach((photo, index) => {
       if (index >= photosPerPage * page - photosPerPage && index < photosPerPage * page) {
@@ -149,21 +158,21 @@ export default class AddVehicle {
         images.append(img);
         imgPageNum.innerHTML = `page ${page}`;
       } else {
-        return;
+        return; // TODO - revisit this.
       }
     });
   }
 
-  static storeVehicleDetails(e, vehicleArray) {
-    tempVehicle.image = e.target.closest(".modal").querySelector(".selected-img").dataset.fullUrl;
+  static storeVehicleDetails(selectedImage, vehicleArray) {
+    tempVehicle.image = selectedImage.dataset.fullUrl;
     //TODO - change id to uuid v4
     tempVehicle.id = new Date().valueOf().toString();
-    tempVehicle.title = e.target.closest(".modal").querySelector(".selected-img").dataset.title;
-    tempVehicle.owner = e.target.closest(".modal").querySelector(".selected-img").dataset.owner;
-    tempVehicle.license = e.target.closest(".modal").querySelector(".selected-img").dataset.license;
-    tempVehicle.licenseUrl = e.target.closest(".modal").querySelector(".selected-img").dataset.licenseUrl;
-    tempVehicle.userId = e.target.closest(".modal").querySelector(".selected-img").dataset.userId;
-    tempVehicle.photoId = e.target.closest(".modal").querySelector(".selected-img").dataset.photoId;
+    tempVehicle.title = selectedImage.dataset.title;
+    tempVehicle.owner = selectedImage.dataset.owner;
+    tempVehicle.license = selectedImage.dataset.license;
+    tempVehicle.licenseUrl = selectedImage.dataset.licenseUrl;
+    tempVehicle.userId = selectedImage.dataset.userId;
+    tempVehicle.photoId = selectedImage.dataset.photoId;
     const newVehicle = { ...tempVehicle }; // TODO - check to see if I still need to clone object using spread operator.
     vehicleArray.push(newVehicle);
   }

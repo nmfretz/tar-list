@@ -70,7 +70,14 @@ Back end server currently deployed on heroku at https://tar-list.herokuapp.com
 
 Front end currently deployed on netlify at https://tar-list.netlify.app/
 
-Change `const apiUrl` in `/public/add-vehicle.js` to url of your server
+Snowpack build:
+
+```
+cd public
+npm run build
+```
+
+Change `const apiUrl` in `/public/build/add-vehicle.js` to url of your server
 
 # Screenshots
 

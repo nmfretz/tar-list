@@ -15,51 +15,55 @@
     />
   </head>
   <body>
-    <!-- HEADER CAR GAME -->
-    <header class="header">
-      <div class="header-title">
-        <h1>TAR LIST</h1>
-        <h2>by Clark and Emmy</h2>
-      </div>
-      <div class="header-game">
-        <div class="header-car">
-          <img class="header-game-img" src="./images/header-game-img.jpg" alt="" />
-          <div class="headlights hidden" data-headlights>
-            <div class="left-headlight"></div>
-            <div class="right-headlight"></div>
+    <main>
+      <!-- HEADER CAR GAME -->
+      <header class="header">
+        <div class="header-title">
+          <h1>TAR LIST</h1>
+          <h2>by Clark and Emmy</h2>
+        </div>
+        <div class="header-game">
+          <div class="header-car">
+            <img class="header-game-img" src="./images/header-game-img.jpg" alt="" />
+            <div class="headlights hidden" data-headlights>
+              <div class="left-headlight"></div>
+              <div class="right-headlight"></div>
+            </div>
+          </div>
+
+          <input class="headlight-toggle" type="checkbox" data-headlight-toggle />
+
+          <div class="headlight-color-picker" data-headlight-color-picker>
+            <div class="colors red" data-color-JS="red"></div>
+            <div class="colors orange" data-color-JS="orange"></div>
+            <div class="colors yellow selected" data-color-JS="yellow"></div>
+            <div class="colors green" data-color-JS="green"></div>
+            <div class="colors blue" data-color-JS="blue"></div>
+            <div class="colors purple" data-color-JS="purple"></div>
+          </div>
+
+          <div class="honk-horn">
+            <img class="horn-img" src="./images/horn.png" alt="" data-horn />
           </div>
         </div>
-        <a class="header-img-credit" href="https://www.vecteezy.com/free-vector/car-headlights"
+
+        <button class="btn add-vehicle-btn" data-add-vehicle-btn>Add New Vehicle</button>
+      </header>
+
+      <!-- VEHICLE GALLERY -->
+      <section class="gallery-section">
+        <h1 class="gallery-title">Vehicle Gallery</h1>
+        <div class="gallery-container" data-vehicle-gallery>
+          <!-- Populate Vehicle Gallery with Javascript -->
+        </div>
+      </section>
+
+      <footer class="footer">
+        <a class="header-img-credit" href="https://www.vecteezy.com/free-vector/car-headlights" target="_blank"
           >Car Headlights Vectors by Vecteezy</a
         >
-
-        <input class="headlight-toggle" type="checkbox" data-headlight-toggle />
-
-        <div class="headlight-color-picker" data-headlight-color-picker>
-          <div class="colors red" data-color-JS="red"></div>
-          <div class="colors orange" data-color-JS="orange"></div>
-          <div class="colors yellow selected" data-color-JS="yellow"></div>
-          <div class="colors green" data-color-JS="green"></div>
-          <div class="colors blue" data-color-JS="blue"></div>
-          <div class="colors purple" data-color-JS="purple"></div>
-        </div>
-
-        <div class="honk-horn">
-          <img class="horn-img" src="./images/horn.png" alt="" data-horn />
-        </div>
-      </div>
-
-      <button class="btn add-vehicle-btn" data-add-vehicle-btn>Add New Vehicle</button>
-    </header>
-
-    <!-- VEHICLE GALLERY -->
-    <section class="gallery-section">
-      <h1 class="gallery-title">Vehicle Gallery</h1>
-      <div class="gallery-container" data-vehicle-gallery>
-        <!-- Populate Vehicle Gallery with Javascript -->
-      </div>
-    </section>
-
+      </footer>
+    </main>
     <div class="modal-overlay hidden" data-modal-overlay></div>
 
     <!-- popup for full vehicle image -->
@@ -189,7 +193,7 @@
         </div>
 
         <div class="modal-content">
-          <h2 class="modal-title">Search for an image of your vehicle</h2>
+          <h2 class="modal-title">Search for an image</h2>
 
           <div class="searchbar">
             <input class="search-input" type="text" placeholder="Search vehicles..." data-search-img-input />

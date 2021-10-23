@@ -6,16 +6,23 @@
   box-sizing: border-box;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: "Roboto", sans-serif;
   line-height: 1.5;
+  height: 100%;
+  /* width: 100%; */
 }
 
-nav,
-footer {
-  background-color: #ccc;
-  padding: 1.5em;
+main {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  grid-template-columns: 100%;
 }
 
 /*----------MISC COMMON COMPONENTS----------*/
@@ -108,19 +115,6 @@ footer {
 .right-headlight {
   left: 149px;
   top: 85.8px;
-}
-
-.header-img-credit {
-  position: absolute;
-  top: 300px;
-
-  text-decoration: none;
-  color: hsl(240, 50%, 50%);
-  font-size: 0.6rem;
-}
-
-.header-img-credit:hover {
-  color: hsl(240, 50%, 80%);
 }
 
 /*headlight toggle*/
@@ -252,12 +246,19 @@ footer {
   transform: translateX(-50%);
 }
 
+@media screen and (max-width: 700px) {
+  .add-vehicle-btn {
+    width: 300px;
+  }
+}
+
 /*----------VEHICLE GALLERY----------*/
 
 .gallery-section {
   background: hsl(207, 32%, 26%);
   padding-top: 2rem;
   padding-bottom: 2rem;
+  /* min-height: 600px; */
 
   color: white;
 }
@@ -382,6 +383,12 @@ footer {
   max-width: 500px;
 }
 
+@media screen and (max-width: 600px) {
+  .gallery-popup.landscape,
+  .gallery-popup.portrait {
+    width: 95%;
+  }
+}
 .popup-img {
   width: 100%;
 }
@@ -426,6 +433,22 @@ footer {
 
 .img-modal {
   width: 600px;
+}
+
+@media screen and (max-width: 600px) {
+  .vehicle-name-modal {
+    /* width: 300px; */
+    width: 100%;
+  }
+
+  .driver-modal {
+    width: 100%;
+  }
+
+  .img-modal {
+    /* width: 300px; */
+    width: 100%;
+  }
 }
 
 .modal-content {
@@ -571,6 +594,12 @@ footer {
   opacity: 0.8;
 }
 
+@media screen and (max-width: 600px) {
+  .driver-pic {
+    width: 70px;
+  }
+}
+
 .driver-pic:hover {
   opacity: 1;
 }
@@ -653,6 +682,29 @@ footer {
   opacity: 1;
 }
 
+@media screen and (max-width: 600px) {
+  .img-gallery {
+    height: 230px;
+  }
+
+  .gal-img {
+    width: 80px;
+  }
+
+  .search-input {
+    width: 80%;
+  }
+
+  .clear-icon {
+    /* position: absolute; */
+    right: 4rem;
+  }
+
+  .search-img-btn {
+    width: 20%;
+  }
+}
+
 .selected-img {
   border: 3px solid red;
 }
@@ -662,6 +714,10 @@ footer {
   justify-content: center;
   align-items: center;
   gap: 1rem;
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .page-num {
@@ -680,6 +736,25 @@ footer {
   color: #333;
 }
 
+/* FOOTER */
+.footer {
+  background-color: hsl(207, 32%, 26%);
+
+  display: flex;
+  justify-content: center;
+  padding: 0.5em;
+}
+
+.header-img-credit {
+  text-decoration: none;
+  color: white;
+  font-size: 0.7rem;
+}
+
+.header-img-credit:hover {
+  color: #999;
+}
+
 /*----------LOAD SPINNER FOR IMAGE SEARCH----------*/
 /*CSS by summer (@Elvira-Ho) - https://codepen.io/Elvira-Ho/pen/jvmRNK*/
 
@@ -694,6 +769,13 @@ footer {
   align-items: center;
   left: 35%;
   /* justify-content: center; */
+}
+
+@media screen and (max-width: 700px) {
+  .loader {
+    height: 168px;
+    left: 26%;
+  }
 }
 
 .hide-loader {

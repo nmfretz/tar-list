@@ -39,7 +39,6 @@ horn.addEventListener("click", (e) => {
 });
 
 // add new vehicle button (event listener)
-// TODO - is there a more efficient way to add these all together?
 addVehiclebtn.addEventListener("click", (e) => {
   AddVehicle.openModal();
 });
@@ -53,7 +52,18 @@ modalsContainer.addEventListener("keyup", (e) => {
 // next modal step (event listener)
 modalsContainer.addEventListener("click", (e) => {
   if (!e.target.matches("[data-next-btn]")) return;
-  AddVehicle.nextModalStep(e);
+  const target = document.querySelector("[data-vehicle-name-modal]");
+  AddVehicle.nextModalStep(target);
+});
+
+const vehicleNameInput = document.querySelector("[data-vehicle-name-input]");
+document.addEventListener("keyup", (e) => {
+  if (e.keyCode !== 13) return;
+  if (document.querySelector("[data-vehicle-name-modal]").classList.contains("hidden") === true) return;
+  if (vehicleNameInput.value === "") return;
+  const target = document.querySelector("[data-vehicle-name-modal]");
+  AddVehicle.nextModalStep(target);
+  console.log("enter vehicle name");
 });
 
 // previous modal step (event listener)
@@ -81,22 +91,40 @@ modalsContainer.addEventListener("click", (e) => {
   AddVehicle.enableNextBtnDriverModal(e);
 });
 
+document.addEventListener("keyup", (e) => {
+  if (e.keyCode !== 13) return;
+  if (document.querySelector("[data-driver-modal]").classList.contains("hidden") === true) return;
+  const allDrivers = [...document.querySelectorAll("[data-driver]")];
+  console.log(allDrivers);
+  if (allDrivers.find((driver) => driver.classList.contains("selected-driver")) === undefined) return;
+  const target = document.querySelector("[data-driver-modal]");
+  AddVehicle.nextModalStep(target);
+  console.log("enter driver");
+});
+
+// next modal step (event listener)
+modalsContainer.addEventListener("click", (e) => {
+  if (!e.target.matches("[data-next-btn]")) return;
+  const target = document.querySelector("[data-driver-modal]");
+  AddVehicle.nextModalStep(target);
+});
+
 // search image (event listeners)
 //    search on enter
-searchImgInput.addEventListener("keyup", (e) => {
+searchImgInput.addEventListener("keyup", async (e) => {
   if (e.keyCode !== 13 || searchImgInput.value === "") return;
   imageGallery.classList.remove("hidden");
-  tempSearchInput = searchImgInput.value;
+  tempSearchInput = searchImgInput.value; // can get rid of this now that I cache 120 images and then page through them
   searchPage = 1;
-  AddVehicle.fetchImages(tempSearchInput);
+  await AddVehicle.fetchImages(tempSearchInput);
 });
 
 //    search on btn click
-searchImgBtn.addEventListener("click", (e) => {
+searchImgBtn.addEventListener("click", async (e) => {
   imageGallery.classList.remove("hidden");
   tempSearchInput = searchImgInput.value;
   searchPage = 1;
-  AddVehicle.fetchImages(tempSearchInput);
+  await AddVehicle.fetchImages(tempSearchInput);
 });
 
 // change fetch image page (event listeners)
@@ -144,13 +172,40 @@ modalsContainer.addEventListener("click", (e) => {
 modalsContainer.addEventListener("click", (e) => {
   if (!e.target.matches("[data-finish-btn]")) return;
 
-  AddVehicle.storeVehicleDetails(e, vehicleArray);
+  const allImages = [...document.querySelectorAll("[data-img]")];
+  const selectedImage = allImages.find((image) => image.classList.contains("selected-img"));
+  console.log(selectedImage);
+
+  AddVehicle.storeVehicleDetails(selectedImage, vehicleArray);
   VehicleGallery.saveVehicles();
   //TODO - change params to renderVehicles... I made this too confusing
   VehicleGallery.renderVehicles("yes");
 
-  const target = e.target.closest(".modal");
-  target.classList.add("hidden");
+  const activeModal = document.querySelector("[data-img-modal]");
+  activeModal.classList.add("hidden");
+  modalOverlay.classList.add("hidden");
+  document.body.classList.remove("pause-scrolling");
+  AddVehicle.clearInputs();
+});
+
+// finish button (event listener) - CURRENTLY EDITING HERE
+document.addEventListener("keyup", (e) => {
+  if (e.keyCode !== 13) return;
+  if (document.querySelector("[data-img-modal]").classList.contains("hidden") === true) return;
+
+  const allImages = [...document.querySelectorAll("[data-img]")];
+  console.log(allImages);
+  if (allImages.find((image) => image.classList.contains("selected-img")) === undefined) return;
+
+  const selectedImage = allImages.find((image) => image.classList.contains("selected-img"));
+  console.log(selectedImage);
+  AddVehicle.storeVehicleDetails(selectedImage, vehicleArray); // TODO - consider just exporting vehicleArray and importing to add-vehicle.js
+  VehicleGallery.saveVehicles();
+  //TODO - change params to renderVehicles... I made this too confusing
+  VehicleGallery.renderVehicles("yes");
+
+  const activeModal = document.querySelector("[data-img-modal]");
+  activeModal.classList.add("hidden");
   modalOverlay.classList.add("hidden");
   document.body.classList.remove("pause-scrolling");
   AddVehicle.clearInputs();

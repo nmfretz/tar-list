@@ -19,7 +19,7 @@ app.get("/:searchparams", async (req, res) => {
 
   const searchParameters = req.params.searchparams.split(",");
   console.log(searchParameters);
-  const searchInput = searchParameters[0];
+  const searchInput = searchParameters[0].replace(/\s/g, "%20");
   // const photosPerPage = 6;
   const photosPerPage = 120;
 
@@ -31,9 +31,9 @@ app.get("/:searchparams", async (req, res) => {
 
   const apiUrlPhotos = `https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=${FLICKR_API_KEY}&tags=${searchInput}&license=${licenseRequest}&extras=${extras}&per_page=${photosPerPage}&format=json&nojsoncallback=1`;
 
-  const apiUrlLicenses = `https://www.flickr.com/services/rest/?method=flickr.photos.licenses.getInfo&api_key=aceda01ee3370538fb46eab541fabf93&format=json&nojsoncallback=1`;
+  const apiUrlLicenses = `https://www.flickr.com/services/rest/?method=flickr.photos.licenses.getInfo&api_key=${FLICKR_API_KEY}&format=json&nojsoncallback=1`;
 
-  // console.log(apiUrlPhotos);
+  console.log(apiUrlPhotos);
   // console.log(apiUrlLicenses);
 
   const photosFetchResponse = await fetch(apiUrlPhotos);

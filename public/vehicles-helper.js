@@ -15,7 +15,6 @@ const vehicleGallery = document.querySelector("[data-vehicle-gallery]");
 
 export function storeVehicleName() {
   newVehicle.name = vehicleNameInput.value;
-  console.log(newVehicle);
 }
 
 export function storeDriver() {
@@ -23,7 +22,6 @@ export function storeDriver() {
   const selectedDriver = allDrivers.find((driver) => driver.classList.contains("selected-driver"));
   const driverPhoto = selectedDriver.src;
   newVehicle.driver = driverPhoto;
-  console.log(newVehicle);
 }
 
 export async function fetchImages(searchInput) {

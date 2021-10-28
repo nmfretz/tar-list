@@ -80,8 +80,8 @@
     <!-- MODALS TO ADD NEW VEHICLE -->
 
     <div data-modals>
-      <!-- modal 1 -->
-      <div class="modal vehicle-name-modal hidden" data-vehicle-name-modal>
+      <!-- modal step 1 -->
+      <div class="modal vehicle-name-modal hidden" data-modal data-vehicle-name-modal>
         <div class="modal-steps">
           <div class="modal-step selected" data-modal-step-one>
             <div class="modal-step-number">
@@ -122,8 +122,8 @@
         <span class="cancel" data-cancel-btn>Cancel</span>
       </div>
 
-      <!-- modal 2 -->
-      <div class="modal driver-modal hidden" data-driver-modal>
+      <!-- modal step 2 -->
+      <div class="modal driver-modal hidden" data-modal data-driver-modal>
         <div class="modal-steps">
           <div class="modal-step" data-modal-step-one>
             <div class="modal-step-number">
@@ -169,8 +169,8 @@
         <span class="cancel" data-cancel-btn>Cancel</span>
       </div>
 
-      <!-- modal 3 -->
-      <div class="modal img-modal hidden" data-img-modal>
+      <!-- modal step 3 -->
+      <div class="modal img-modal hidden" data-modal data-img-modal>
         <div class="modal-steps">
           <div class="modal-step" data-modal-step-one>
             <div class="modal-step-number">
@@ -209,7 +209,7 @@
               <svg class="car" width="102" height="40" xmlns="http://www.w3.org/2000/svg">
                 <g
                   transform="translate(2 1)"
-                  stroke="#002742"
+                  stroke="#000000"
                   fill="none"
                   fill-rule="evenodd"
                   stroke-linecap="round"
@@ -243,6 +243,7 @@
                   <path class="car__line car__line--bottom" d="M25.5 9.5h-19" stroke-width="3" />
                 </g>
               </svg>
+              <p>Slowly fetching images from flickr...</p>
             </div>
 
             <div class="images" data-images>
@@ -267,7 +268,6 @@
       <div class="item-container" data-item-container>
         <div class="item-image-container">
           <img class="item-image" src="" alt="" data-item-img />
-          <ion-icon class="delete-item hidden" name="trash-outline" data-delete-item></ion-icon>
         </div>
         <div class="item-info">
           <img class="item-driver" data-item-driver src="" alt="" />
@@ -277,6 +277,7 @@
             <ion-icon class="arrow" name="caret-up-outline" data-sort-arrow-up></ion-icon>
             <ion-icon class="arrow" name="caret-down-outline" data-sort-arrow-down></ion-icon>
           </div>
+          <ion-icon class="delete-item" name="trash-outline" data-delete-item></ion-icon>
         </div>
       </div>
     </template>

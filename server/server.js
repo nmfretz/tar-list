@@ -21,11 +21,11 @@ app.get("/:searchparams", async (req, res) => {
   console.log(searchParameters);
   const searchInput = searchParameters[0].replace(/\s/g, "%20");
   // const photosPerPage = 6;
-  const photosPerPage = 120;
+  const photosPerPage = 120; // rename because there is a similar varibale in add-vehicle.js. Maybe use photosPerRequest
 
   // TODO - add explanation of extras
   const extras = "url_q,license,owner_name";
-  const licenseRequest = "1,2,3,4,5,6,7,8,9,10";
+  const licenseRequest = "1,2,3,4,5,6,7,8,9,10"; // license 0 is all rights reserved
 
   const FLICKR_API_KEY = process.env.FLICKR_API_KEY;
 
@@ -36,24 +36,31 @@ app.get("/:searchparams", async (req, res) => {
   console.log(apiUrlPhotos);
   // console.log(apiUrlLicenses);
 
-  const photosFetchResponse = await fetch(apiUrlPhotos);
-  const jsonPhotos = await photosFetchResponse.json();
+  try {
+    const photosFetchResponse = await fetch(apiUrlPhotos);
+    const jsonPhotos = await photosFetchResponse.json();
+    const status = res.statusCode;
+    console.log(status);
+    console.log(photosFetchResponse);
+    console.log(jsonPhotos);
+    //TODO - cache the license fetch to reduce api calls.
+    const licensesFetchResponse = await fetch(apiUrlLicenses);
+    const jsonLicenses = await licensesFetchResponse.json();
 
-  //TODO - cache the license fetch to reduce api calls.
-  const licensesFetchResponse = await fetch(apiUrlLicenses);
-  const jsonLicenses = await licensesFetchResponse.json();
+    const photos = jsonPhotos.photos.photo;
+    const licenses = jsonLicenses.licenses.license;
+    // console.log(licenses);
 
-  const photos = jsonPhotos.photos.photo;
-  const licenses = jsonLicenses.licenses.license;
-  // console.log(licenses);
+    // Add license name and license url to each photo
+    photos.forEach((photo) => {
+      photo.licenseName = licenses.find((license) => license.id === photo.license).name;
+      photo.licenseNameUrl = licenses.find((license) => license.id === photo.license).url;
+    });
 
-  // Add license name and license url to each photo
-  photos.forEach((photo) => {
-    photo.licenseName = licenses.find((license) => license.id === photo.license).name;
-    photo.licenseNameUrl = licenses.find((license) => license.id === photo.license).url;
-  });
+    // console.log(photos);
 
-  // console.log(photos);
-
-  res.json(photos);
+    res.json(photos);
+  } catch (error) {
+    console.error(error);
+  }
 });

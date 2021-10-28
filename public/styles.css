@@ -24,6 +24,11 @@ main {
   grid-template-columns: 100%;
 }
 
+/* This results in being able to add global event listener to a button based on data-attribute and not have to worry about elements within the button preventing the event listner from firing */
+button > * {
+  pointer-events: none;
+}
+
 /*----------MISC COMMON COMPONENTS----------*/
 
 .btn {
@@ -298,22 +303,6 @@ main {
   height: 300px;
 }
 
-.delete-item {
-  position: absolute;
-
-  right: 0.3em;
-  top: 0.3em;
-
-  color: white;
-  font-size: 1.5rem;
-
-  cursor: pointer;
-}
-
-.delete-item:hover {
-  color: black;
-}
-
 .item-image {
   position: relative;
 
@@ -332,7 +321,9 @@ main {
 
 .item-info {
   display: flex;
-  justify-content: flex-start;
+  /* justify-content: flex-start; */
+  justify-content: space-between;
+
   align-items: center;
   gap: 1rem;
 
@@ -356,7 +347,24 @@ main {
 }
 
 .arrow:hover {
-  color: black;
+  color: #999;
+}
+
+.delete-item {
+  /* position: absolute; */
+
+  /* right: 0.3em; */
+  /* top: 0.3em; */
+  /* right: 0; */
+
+  color: white;
+  font-size: 1.5rem;
+
+  cursor: pointer;
+}
+
+.delete-item:hover {
+  color: #999;
 }
 
 /*----------OVERLAY FOR POPUP AND MODALS----------*/
@@ -367,7 +375,8 @@ main {
   left: 0;
   right: 0;
 
-  background-color: rgba(0, 0, 0, 0.5);
+  /* background-color: rgba(0, 0, 0, 0.5); */
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 /*----------POPUP FOR FULL VEHICLE IMAGE----------*/
@@ -396,6 +405,7 @@ main {
     width: 95%;
   }
 }
+
 .popup-img {
   width: 100%;
 }
@@ -729,6 +739,12 @@ main {
   font-size: 0.9rem;
 }
 
+@media screen and (max-width: 700px) {
+  .page-num {
+    font-size: 0.75rem;
+  }
+}
+
 .page-selector {
   font-size: 2.5rem;
   color: #999;
@@ -740,9 +756,15 @@ main {
   color: #333;
 }
 
+.no-photo-msg {
+  color: red;
+  padding: 1em;
+  text-align: center;
+}
+
 /* FOOTER */
 .footer {
-  background-color: hsl(207, 32%, 26%);
+  background: hsl(207, 32%, 26%);
 
   display: flex;
   justify-content: center;
@@ -764,21 +786,24 @@ main {
 
 .loader {
   position: relative;
-  /* height: 100vh; */
   /* height taken from data-images computed height */
   height: 278px;
   margin: 0;
   padding: 0;
   display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  left: 35%;
-  /* justify-content: center; */
+}
+
+.car {
+  position: relative;
+  left: -5%;
 }
 
 @media screen and (max-width: 700px) {
   .loader {
     height: 168px;
-    left: 26%;
   }
 }
 

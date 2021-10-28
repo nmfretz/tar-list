@@ -1,73 +1,71 @@
-const LOCAL_STORAGE_PREFIX = "TAR_LIST";
-const TAR_STORAGE_KEY = `${LOCAL_STORAGE_PREFIX}-tars`;
+import addGlobalEventListener from "./utils/addGlobalEventListener.js";
+import { renderVehicleGallery, deleteVehicle, saveVehiclesToLocalStorage, reorderVehicleArray } from "./vehicles.js";
 
-export default class VehicleGallery {
-  //TODO - is modifying the array in place poor practice?
-  static reorderArray(arr, fromIndex, toIndex) {
-    if (fromIndex === 0 && toIndex < 0) return;
-    if (fromIndex === arr.length - 1 && toIndex === arr.length) return;
-    const element = arr[fromIndex];
-    arr.splice(fromIndex, 1);
-    arr.splice(toIndex, 0, element);
-  }
+const modalOverlay = document.querySelector("[data-modal-overlay]");
+const vehicleNameModal = document.querySelector("[data-vehicle-name-modal]");
+const driverModal = document.querySelector("[data-driver-modal]");
+const imgModal = document.querySelector("[data-img-modal]");
+const galleryPopup = document.querySelector("[data-gallery-popup]");
+const popupImg = document.querySelector("[data-popup-img]");
 
-  static saveVehicles() {
-    localStorage.setItem(TAR_STORAGE_KEY, JSON.stringify(vehicleArray));
-  }
+export function setupGallery() {
+  renderVehicleGallery(); // renders gallery and also sets variable vehicleArray to localStorage
 
-  static loadVehicles() {
-    const vehicleString = localStorage.getItem(TAR_STORAGE_KEY);
-    return JSON.parse(vehicleString) || [];
-  }
+  // delete vehicle
+  addGlobalEventListener("click", "[data-delete-item]", deleteVehicle);
 
-  static deleteVehicle(e) {
-    const parent = e.target.closest("[data-item-container]");
-    const parentId = parent.dataset.id;
-    vehicleArray = vehicleArray.filter((vehicle) => vehicle.id !== parentId);
-    parent.remove();
-    this.saveVehicles();
-  }
+  // popup for full gallery image
+  addGlobalEventListener("click", ".item-image", (e) => {
+    //TODO - refactor with function... code is too long
+    popupImg.src = e.target.src;
+    popupImg.alt = e.target.alt;
+    modalOverlay.style.top = `${window.scrollY}px`;
+    modalOverlay.style.height = `${window.innerHeight}px`;
+    galleryPopup.style.top = `${window.scrollY + window.innerHeight / 2}px`;
 
-  static renderVehicles(isVehicleNew) {
-    const vehicleTemplate = document.querySelector("[data-vehicle-template]");
-    const vehicleGallery = document.querySelector("[data-vehicle-gallery]");
+    //TODO - susceptible to cross-site scripting?
+    popupImg.parentElement.querySelector(
+      ".attribution"
+    ).innerHTML = `<span>"</span><a href="https://www.flickr.com/photos/${e.target.dataset.userId}/${e.target.dataset.photoId}" target="_blank">${e.target.dataset.title}</a><span>"</span>,  by <a href="https://www.flickr.com/people/${e.target.dataset.userId}" target="_blank">${e.target.dataset.owner}</a>, licensed under <a href=${e.target.dataset.licenseUrl} target="_blank">${e.target.dataset.license}</a>`;
 
-    vehicleGallery.innerHTML = "";
-    vehicleArray.forEach((vehicle, index) => {
-      const templateClone = vehicleTemplate.content.cloneNode(true);
-      const itemContainer = templateClone.querySelector("[data-item-container]");
-      const itemImage = templateClone.querySelector("[data-item-img]");
-      const driver = templateClone.querySelector("[data-item-driver]");
-      const itemName = templateClone.querySelector("[data-item-name]");
-      const itemRank = templateClone.querySelector("[data-item-rank]");
-      itemContainer.dataset.id = vehicle.id;
-      itemImage.src = vehicle.image;
-      // image attribution
-      itemImage.dataset.userId = vehicle.userId;
-      itemImage.dataset.photoId = vehicle.photoId;
-      itemImage.dataset.owner = vehicle.owner;
-      itemImage.dataset.title = vehicle.title;
-      itemImage.dataset.license = vehicle.license;
-      itemImage.dataset.licenseUrl = vehicle.licenseUrl;
+    // assign css based on landscape vs portrait image
+    if (popupImg.width > popupImg.height) {
+      galleryPopup.classList.remove("portrait");
+      galleryPopup.classList.add("landscape");
+    } else {
+      galleryPopup.classList.remove("landscape");
+      galleryPopup.classList.add("portrait");
+    }
 
-      driver.src = vehicle.driver;
-      itemName.innerText = vehicle.name.toUpperCase();
-      itemRank.innerText = `RANK: ${index + 1}`;
+    document.body.classList.add("pause-scrolling");
+    modalOverlay.classList.remove("hidden");
+    galleryPopup.classList.remove("hidden");
+  });
 
-      vehicleGallery.append(itemContainer);
+  // close popup for full gallery image
+  addGlobalEventListener("click", "[data-modal-overlay]", (e) => {
+    if (
+      !vehicleNameModal.classList.contains("hidden") ||
+      !driverModal.classList.contains("hidden") ||
+      !imgModal.classList.contains("hidden")
+    )
+      return;
+    galleryPopup.classList.add("hidden");
+    modalOverlay.classList.add("hidden");
+    document.body.classList.remove("pause-scrolling");
+  });
 
-      //scroll to newly rendered image
-      if (isVehicleNew === "yes" && index === vehicleArray.length - 1) {
-        itemContainer.scrollIntoView({ behavior: "smooth" });
-        itemImage.classList.add("highlight");
-        setTimeout(() => {
-          itemImage.classList.remove("highlight");
-        }, 3000);
-      }
-    });
-  }
+  //    move vehicle down the gallery
+  addGlobalEventListener("click", "[data-sort-arrow-down]", (e) => {
+    reorderVehicleArray(e);
+    saveVehiclesToLocalStorage();
+    renderVehicleGallery();
+  });
+
+  //    move vehicle up the gallery
+  addGlobalEventListener("click", "[data-sort-arrow-up]", (e) => {
+    reorderVehicleArray(e);
+    saveVehiclesToLocalStorage();
+    renderVehicleGallery();
+  });
 }
-
-// TODO - refactor to database
-// populates array with local storage or an empty array if local storage is empty
-export let vehicleArray = VehicleGallery.loadVehicles();

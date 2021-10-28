@@ -1,5 +1,10 @@
 import addGlobalEventListener from "./utils/addGlobalEventListener.js";
-import { renderVehicleGallery, deleteVehicle, saveVehiclesToLocalStorage, reorderVehicleArray } from "./vehicles.js";
+import {
+  renderVehicleGallery,
+  deleteVehicle,
+  saveVehiclesToLocalStorage,
+  reorderVehicleArray,
+} from "./vehicles-helper.js";
 
 const modalOverlay = document.querySelector("[data-modal-overlay]");
 const vehicleNameModal = document.querySelector("[data-vehicle-name-modal]");
@@ -15,32 +20,7 @@ export function setupGallery() {
   addGlobalEventListener("click", "[data-delete-item]", deleteVehicle);
 
   // popup for full gallery image
-  addGlobalEventListener("click", ".item-image", (e) => {
-    //TODO - refactor with function... code is too long
-    popupImg.src = e.target.src;
-    popupImg.alt = e.target.alt;
-    modalOverlay.style.top = `${window.scrollY}px`;
-    modalOverlay.style.height = `${window.innerHeight}px`;
-    galleryPopup.style.top = `${window.scrollY + window.innerHeight / 2}px`;
-
-    //TODO - susceptible to cross-site scripting?
-    popupImg.parentElement.querySelector(
-      ".attribution"
-    ).innerHTML = `<span>"</span><a href="https://www.flickr.com/photos/${e.target.dataset.userId}/${e.target.dataset.photoId}" target="_blank">${e.target.dataset.title}</a><span>"</span>,  by <a href="https://www.flickr.com/people/${e.target.dataset.userId}" target="_blank">${e.target.dataset.owner}</a>, licensed under <a href=${e.target.dataset.licenseUrl} target="_blank">${e.target.dataset.license}</a>`;
-
-    // assign css based on landscape vs portrait image
-    if (popupImg.width > popupImg.height) {
-      galleryPopup.classList.remove("portrait");
-      galleryPopup.classList.add("landscape");
-    } else {
-      galleryPopup.classList.remove("landscape");
-      galleryPopup.classList.add("portrait");
-    }
-
-    document.body.classList.add("pause-scrolling");
-    modalOverlay.classList.remove("hidden");
-    galleryPopup.classList.remove("hidden");
-  });
+  addGlobalEventListener("click", ".item-image", openImagePopup);
 
   // close popup for full gallery image
   addGlobalEventListener("click", "[data-modal-overlay]", (e) => {
@@ -50,9 +30,7 @@ export function setupGallery() {
       !imgModal.classList.contains("hidden")
     )
       return;
-    galleryPopup.classList.add("hidden");
-    modalOverlay.classList.add("hidden");
-    document.body.classList.remove("pause-scrolling");
+    closeImagePopup();
   });
 
   //    move vehicle down the gallery
@@ -68,4 +46,36 @@ export function setupGallery() {
     saveVehiclesToLocalStorage();
     renderVehicleGallery();
   });
+}
+
+function openImagePopup(e) {
+  popupImg.src = e.target.src;
+  popupImg.alt = e.target.alt;
+  modalOverlay.style.top = `${window.scrollY}px`;
+  modalOverlay.style.height = `${window.innerHeight}px`;
+  galleryPopup.style.top = `${window.scrollY + window.innerHeight / 2}px`;
+
+  //TODO - susceptible to cross-site scripting?
+  popupImg.parentElement.querySelector(
+    ".attribution"
+  ).innerHTML = `<span>"</span><a href="https://www.flickr.com/photos/${e.target.dataset.userId}/${e.target.dataset.photoId}" target="_blank">${e.target.dataset.title}</a><span>"</span>,  by <a href="https://www.flickr.com/people/${e.target.dataset.userId}" target="_blank">${e.target.dataset.owner}</a>, licensed under <a href=${e.target.dataset.licenseUrl} target="_blank">${e.target.dataset.license}</a>`;
+
+  // assigns CSS based on landscape vs portrait image
+  if (popupImg.width > popupImg.height) {
+    galleryPopup.classList.remove("portrait");
+    galleryPopup.classList.add("landscape");
+  } else {
+    galleryPopup.classList.remove("landscape");
+    galleryPopup.classList.add("portrait");
+  }
+
+  document.body.classList.add("pause-scrolling");
+  modalOverlay.classList.remove("hidden");
+  galleryPopup.classList.remove("hidden");
+}
+
+function closeImagePopup() {
+  galleryPopup.classList.add("hidden");
+  modalOverlay.classList.add("hidden");
+  document.body.classList.remove("pause-scrolling");
 }

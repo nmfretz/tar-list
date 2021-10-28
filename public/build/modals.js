@@ -7,7 +7,7 @@ import {
   storeVehicleImage,
   saveVehiclesToLocalStorage,
   renderVehicleGallery,
-} from "./vehicles.js";
+} from "./vehicles-helper.js";
 
 let imgSearchInput = "";
 let imgSearchPage = 1;
@@ -34,6 +34,11 @@ export function setupModals() {
 
   // next modal step button
   addGlobalEventListener("click", "[data-next-btn]", showNextModal);
+  addGlobalEventListener("keyup", "[data-vehicle-name-input]", (e) => {
+    if (e.keyCode !== 13) return;
+    console.log("pressed enter in vehicle name modal");
+    showNextModal(e);
+  });
 
   // previous modal step button
   addGlobalEventListener("click", "[data-prev-btn]", showPrevModal);

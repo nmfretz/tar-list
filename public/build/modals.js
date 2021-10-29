@@ -48,17 +48,11 @@ export function setupModals() {
 
   // search images
   addGlobalEventListener("click", "[data-search-img-btn]", async (e) => {
-    searchImageButton.disabled = true;
-    searchImageButton.classList.add("disabled-btn");
-
-    // button > * { pointer-events: none;} - This CSS prevents clicks on elements within the button from preventing the listener from firing
-    imageGallery.classList.remove("hidden");
-    imgSearchInput = searchImgInput.value;
-    imgSearchPage = 1;
-    await fetchImages(imgSearchInput);
-
-    searchImageButton.disabled = false;
-    searchImageButton.classList.remove("disabled-btn");
+    await searchImages();
+  });
+  addGlobalEventListener("keyup", "[data-search-img-input]", async (e) => {
+    if (e.keyCode !== 13) return;
+    await searchImages();
   });
 
   // show/hide the clear-search icon
@@ -152,6 +146,23 @@ function toggleDriver(e) {
   const allDrivers = [...document.querySelectorAll("[data-driver]")];
   allDrivers.forEach((driver) => driver.classList.remove("selected-driver"));
   e.target.classList.add("selected-driver");
+}
+
+async function searchImages() {
+  searchImageButton.disabled = true;
+  searchImgInput.disabled = true;
+  searchImageButton.classList.add("disabled-btn");
+
+  // button > * { pointer-events: none;} - This CSS prevents clicks on elements within the button from preventing the listener from firing
+  imageGallery.classList.remove("hidden");
+  imgSearchInput = searchImgInput.value;
+  imgSearchPage = 1;
+  await fetchImages(imgSearchInput);
+
+  searchImgInput.disabled = false;
+  searchImageButton.disabled = false;
+  searchImageButton.classList.remove("disabled-btn");
+  // TODO - consider creating a function to focus back to search input and place cursor at the end of text
 }
 
 function toggleSearchImage(e) {

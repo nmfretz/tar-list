@@ -139,6 +139,7 @@ export function renderVehicleGallery() {
 
     const itemName = templateClone.querySelector("[data-item-name]");
     itemName.innerText = vehicle.name.toUpperCase();
+    itemName.title = vehicle.name.toUpperCase();
 
     const itemRank = templateClone.querySelector("[data-item-rank]");
     itemRank.innerText = `RANK: ${index + 1}`;
